@@ -26,11 +26,22 @@ export default function LocationDisplay({ location, loading, error, onRetry }) {
     return (
       <div className="bg-white/10 rounded-lg p-3 text-white text-sm flex items-center gap-2">
         <span className="text-lg">📍</span>
-        <div>
-          <p className="font-medium">Position détectée</p>
-          <p className="text-white/70 text-xs">
-            {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
-          </p>
+        <div className="flex-1">
+          {location.city ? (
+            <>
+              <p className="font-medium">{location.city}</p>
+              {location.country && (
+                <p className="text-white/70 text-xs">{location.country}</p>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="font-medium">Position détectée</p>
+              <p className="text-white/70 text-xs">
+                {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+              </p>
+            </>
+          )}
         </div>
       </div>
     );

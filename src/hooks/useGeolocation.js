@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { reverseGeocode } from '../utils/geocoding';
 
 /**
- * Custom hook for geolocation
+ * Custom hook for geolocation with reverse geocoding
  * @returns {Object} location, error, loading, requestLocation
  */
 export function useGeolocation() {
@@ -9,7 +10,7 @@ export function useGeolocation() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const requestLocation = () => {
+  const requestLocation = async () => {
     setLoading(true);
     setError(null);
 
@@ -20,12 +21,30 @@ export function useGeolocation() {
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
+      async (position) => {
+        const coords = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           accuracy: position.coords.accuracy
-        });
+        };
+
+        // Set coordinates immediately
+        setLocation({ ...coords, city: null, country: null });
+
+        // Fetch city name in background
+        try {
+          const geocodeData = await reverseGeocode(coords.latitude, coords.longitude);
+
+          setLocation({
+            ...coords,
+            city: geocodeData.city,
+            country: geocodeData.country
+          });
+        } catch (err) {
+          // Keep coordinates even if geocoding fails
+          console.warn('Geocoding failed, keeping coordinates only');
+        }
+
         setLoading(false);
       },
       (err) => {
