@@ -1,24 +1,4 @@
-/**
- * Decision thresholds for cycling conditions
- */
-const THRESHOLDS = {
-  wind: {
-    go: 20,      // < 20 km/h
-    risky: 35    // 20-35 km/h, > 35 = no go
-  },
-  gusts: {
-    go: 35,      // < 35 km/h
-    risky: 50    // 35-50 km/h, > 50 = no go
-  },
-  precipitation_probability: {
-    go: 20,      // < 20%
-    risky: 50    // 20-50%, > 50 = no go
-  },
-  precipitation: {
-    go: 0,       // 0 mm
-    risky: 2     // 0-2 mm, > 2 = no go
-  }
-};
+import { loadThresholds } from './thresholds';
 
 export const VERDICT = {
   GO: 'GO',
@@ -46,7 +26,7 @@ function calculateStats(values) {
 }
 
 /**
- * Evaluate a single criterion
+ * Evaluate a single criterion (standard: lower is better)
  * @param {number} value - Value to evaluate
  * @param {Object} threshold - Threshold configuration
  * @returns {string} Verdict for this criterion
@@ -58,25 +38,55 @@ function evaluateCriterion(value, threshold) {
 }
 
 /**
+ * Evaluate temperature min (higher is better)
+ * @param {number} value - Temperature value
+ * @param {Object} threshold - Threshold configuration
+ * @returns {string} Verdict for this criterion
+ */
+function evaluateTempMin(value, threshold) {
+  if (value >= threshold.go) return VERDICT.GO;
+  if (value >= threshold.risky) return VERDICT.RISKY;
+  return VERDICT.NO_GO;
+}
+
+/**
+ * Evaluate temperature max (lower is better)
+ * @param {number} value - Temperature value
+ * @param {Object} threshold - Threshold configuration
+ * @returns {string} Verdict for this criterion
+ */
+function evaluateTempMax(value, threshold) {
+  if (value <= threshold.go) return VERDICT.GO;
+  if (value <= threshold.risky) return VERDICT.RISKY;
+  return VERDICT.NO_GO;
+}
+
+/**
  * Main decision engine
  * Analyzes weather data and returns verdict
  * @param {Object} weatherWindow - Weather data for the ride duration
+ * @param {Object} customThresholds - Optional custom thresholds (defaults to stored prefs)
  * @returns {Object} Verdict and detailed conditions
  */
-export function analyzeConditions(weatherWindow) {
+export function analyzeConditions(weatherWindow, customThresholds = null) {
+  const THRESHOLDS = customThresholds || loadThresholds();
+
   // Calculate statistics
   const tempStats = calculateStats(weatherWindow.temperature);
   const windStats = calculateStats(weatherWindow.windspeed);
   const gustStats = calculateStats(weatherWindow.windgusts);
   const precipProbStats = calculateStats(weatherWindow.precipitation_probability);
   const precipStats = calculateStats(weatherWindow.precipitation);
+  const windDirStats = weatherWindow.winddirection ? calculateStats(weatherWindow.winddirection) : { avg: null };
 
   // Evaluate each criterion
   const verdicts = {
     wind: evaluateCriterion(windStats.avg, THRESHOLDS.wind),
     gusts: evaluateCriterion(gustStats.max, THRESHOLDS.gusts),
     precipProb: evaluateCriterion(precipProbStats.max, THRESHOLDS.precipitation_probability),
-    precip: evaluateCriterion(precipStats.max, THRESHOLDS.precipitation)
+    precip: evaluateCriterion(precipStats.max, THRESHOLDS.precipitation),
+    tempMin: evaluateTempMin(tempStats.min, THRESHOLDS.temperature_min),
+    tempMax: evaluateTempMax(tempStats.max, THRESHOLDS.temperature_max)
   };
 
   // Overall verdict logic:
@@ -102,11 +112,14 @@ export function analyzeConditions(weatherWindow) {
       temperature: {
         min: Math.round(tempStats.min),
         max: Math.round(tempStats.max),
-        avg: Math.round(tempStats.avg)
+        avg: Math.round(tempStats.avg),
+        verdictMin: verdicts.tempMin,
+        verdictMax: verdicts.tempMax
       },
       wind: {
         avg: Math.round(windStats.avg),
         max: Math.round(windStats.max),
+        direction: windDirStats.avg !== null ? Math.round(windDirStats.avg) : null,
         verdict: verdicts.wind
       },
       gusts: {

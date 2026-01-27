@@ -5,7 +5,7 @@
  * @returns {Promise<Object>} Weather data
  */
 export async function fetchWeather(latitude, longitude) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation_probability,precipitation,windspeed_10m,windgusts_10m,weathercode&timezone=auto`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,windspeed_10m,windgusts_10m,winddirection_10m,weathercode&timezone=auto&forecast_days=7`;
 
   const response = await fetch(url);
 
@@ -17,38 +17,48 @@ export async function fetchWeather(latitude, longitude) {
 }
 
 /**
- * Get current hour index in the hourly data
+ * Get hour index for a specific date/time in the hourly data
  * @param {Array<string>} timeArray - Array of ISO time strings
- * @returns {number} Index of current hour
+ * @param {Date} departureTime - Departure date/time (defaults to now)
+ * @returns {number} Index of the hour
+ */
+export function getHourIndex(timeArray, departureTime = new Date()) {
+  const targetHour = departureTime.toISOString().slice(0, 13) + ':00';
+
+  return timeArray.findIndex(time => time.startsWith(targetHour.slice(0, 13)));
+}
+
+/**
+ * Get current hour index (backward compatibility)
  */
 export function getCurrentHourIndex(timeArray) {
-  const now = new Date();
-  const currentHour = now.toISOString().slice(0, 13) + ':00';
-
-  return timeArray.findIndex(time => time.startsWith(currentHour.slice(0, 13)));
+  return getHourIndex(timeArray, new Date());
 }
 
 /**
  * Extract weather data for a specific time window
  * @param {Object} weatherData - Full weather data from API
  * @param {number} durationHours - Duration in hours
+ * @param {Date} departureTime - Departure date/time (defaults to now)
  * @returns {Object} Extracted weather window
  */
-export function extractWeatherWindow(weatherData, durationHours) {
-  const startIndex = getCurrentHourIndex(weatherData.hourly.time);
+export function extractWeatherWindow(weatherData, durationHours, departureTime = new Date()) {
+  const startIndex = getHourIndex(weatherData.hourly.time, departureTime);
 
   if (startIndex === -1) {
-    throw new Error('Could not find current time in weather data');
+    throw new Error('Could not find departure time in weather data');
   }
 
   const endIndex = startIndex + durationHours;
 
   return {
     temperature: weatherData.hourly.temperature_2m.slice(startIndex, endIndex),
+    apparent_temperature: weatherData.hourly.apparent_temperature?.slice(startIndex, endIndex) || [],
     precipitation_probability: weatherData.hourly.precipitation_probability.slice(startIndex, endIndex),
     precipitation: weatherData.hourly.precipitation.slice(startIndex, endIndex),
     windspeed: weatherData.hourly.windspeed_10m.slice(startIndex, endIndex),
     windgusts: weatherData.hourly.windgusts_10m.slice(startIndex, endIndex),
+    winddirection: weatherData.hourly.winddirection_10m?.slice(startIndex, endIndex) || [],
     weathercode: weatherData.hourly.weathercode.slice(startIndex, endIndex),
     time: weatherData.hourly.time.slice(startIndex, endIndex)
   };
@@ -89,4 +99,17 @@ export const WEATHER_CODES = {
  */
 export function getWeatherInfo(code) {
   return WEATHER_CODES[code] || { description: 'Inconnu', icon: '❓' };
+}
+
+/**
+ * Convert wind direction degrees to cardinal direction
+ * @param {number} degrees - Wind direction in degrees (0-360)
+ * @returns {string} Cardinal direction (N, NE, E, SE, S, SO, O, NO)
+ */
+export function getCardinalDirection(degrees) {
+  if (degrees === null || degrees === undefined) return '-';
+
+  const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+  const index = Math.round(degrees / 45) % 8;
+  return directions[index];
 }

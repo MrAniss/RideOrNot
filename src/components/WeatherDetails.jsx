@@ -1,6 +1,7 @@
 import { getWeatherInfo } from '../utils/weatherApi';
+import WindDirection from './WindDirection';
 
-function DetailCard({ icon, label, value, status }) {
+function DetailCard({ icon, label, value, status, extra }) {
   const statusColors = {
     GO: 'text-green-400',
     RISKY: 'text-orange-400',
@@ -16,6 +17,7 @@ function DetailCard({ icon, label, value, status }) {
         <span className="text-white/70 text-sm">{label}</span>
       </div>
       <p className={`text-xl font-bold ${statusColor}`}>{value}</p>
+      {extra && <div className="mt-2">{extra}</div>}
     </div>
   );
 }
@@ -46,6 +48,11 @@ export default function WeatherDetails({ conditions, duration }) {
           label="Vent moyen"
           value={`${conditions.wind.avg} km/h`}
           status={conditions.wind.verdict}
+          extra={
+            conditions.wind.direction !== null && conditions.wind.direction !== undefined ? (
+              <WindDirection degrees={conditions.wind.direction} size="sm" />
+            ) : null
+          }
         />
 
         <DetailCard
