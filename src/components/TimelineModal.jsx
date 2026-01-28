@@ -28,6 +28,18 @@ function analyzeHourSegment(weatherWindow, index) {
 }
 
 /**
+ * Get CSS color from verdict
+ */
+function getVerdictColor(verdict) {
+  const colors = {
+    GO: '#21A0A0',
+    RISKY: '#FFE900',
+    NO_GO: '#E53D00'
+  };
+  return colors[verdict] || '#21A0A0';
+}
+
+/**
  * Timeline modal with visual bar
  */
 export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
@@ -76,14 +88,15 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
               {segments.map((segment, index) => {
                 const config = getVerdictConfig(segment.verdict);
                 const isHovered = hoveredIndex === index;
+                const bgColor = getVerdictColor(segment.verdict);
 
                 return (
                   <div
                     key={segment.time}
                     className="relative flex-1 cursor-pointer transition-all"
                     style={{
-                      backgroundColor: isHovered ? config.color.replace('bg-', '#').replace('500', '400') : config.color.replace('bg-', '#').replace('500', '500'),
-                      opacity: isHovered ? 1 : 0.9,
+                      backgroundColor: bgColor,
+                      opacity: isHovered ? 1 : 0.85,
                       transform: isHovered ? 'scaleY(1.15)' : 'scaleY(1)'
                     }}
                     onMouseEnter={() => setHoveredIndex(index)}
