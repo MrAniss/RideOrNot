@@ -14,17 +14,11 @@ import SettingsModal from './components/SettingsModal';
 function App() {
   const [duration, setDuration] = useState(2);
   const [departureTime, setDepartureTime] = useState(new Date());
-  const [showLocationSearch, setShowLocationSearch] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [manualLocation, setManualLocation] = useState(null);
 
   const { location: geoLocation, error: geoError, loading: geoLoading, requestLocation } = useGeolocation();
   const { analysis, weatherWindow, loading: weatherLoading, error: weatherError, analyzeWeather } = useWeather();
-
-  // Auto-request geolocation on mount
-  useEffect(() => {
-    requestLocation();
-  }, [requestLocation]);
 
   // Determine which location to use (manual or geo)
   const activeLocation = manualLocation || geoLocation;
@@ -42,12 +36,10 @@ function App() {
 
   const handleLocationSelect = (location) => {
     setManualLocation(location);
-    setShowLocationSearch(false);
   };
 
   const handleUseGeolocation = () => {
     setManualLocation(null);
-    setShowLocationSearch(false);
     requestLocation();
   };
 
@@ -89,28 +81,23 @@ function App() {
           </button>
         </div>
 
-        {/* Location - Display or Search */}
-        {!showLocationSearch ? (
-          <div className="space-y-2">
+        {/* Location - Search with Display */}
+        <div className="space-y-2">
+          <LocationSearch
+            onLocationSelect={handleLocationSelect}
+            onUseGeolocation={handleUseGeolocation}
+          />
+
+          {/* Display active location if selected */}
+          {activeLocation && (
             <LocationDisplay
               location={activeLocation}
               loading={geoLoading}
               error={geoError}
               onRetry={requestLocation}
             />
-            <button
-              onClick={() => setShowLocationSearch(true)}
-              className="text-white/70 hover:text-white text-sm transition-colors"
-            >
-              📍 Changer de lieu
-            </button>
-          </div>
-        ) : (
-          <LocationSearch
-            onLocationSelect={handleLocationSelect}
-            onUseGeolocation={handleUseGeolocation}
-          />
-        )}
+          )}
+        </div>
 
         {/* DateTime Picker */}
         <DateTimePicker
