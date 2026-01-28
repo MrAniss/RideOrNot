@@ -20,7 +20,7 @@ async function searchCities(query) {
   }
 }
 
-export default function LocationSearch({ onLocationSelect, onUseGeolocation }) {
+export default function LocationSearch({ onLocationSelect, onUseGeolocation, location, loading: geoLoading, error: geoError }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -80,7 +80,7 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation }) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="flex gap-2">
         <div className="flex-1 relative">
           <input
@@ -124,15 +124,60 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation }) {
 
         <button
           onClick={handleGeolocationClick}
-          className="bg-white/20 hover:bg-white/30 text-white rounded-lg px-4 py-2 text-sm font-medium transition-colors flex items-center gap-1 whitespace-nowrap"
+          disabled={geoLoading}
+          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors flex items-center gap-1 whitespace-nowrap ${
+            geoLoading
+              ? 'bg-white/10 text-white/50 cursor-not-allowed'
+              : 'bg-white/20 hover:bg-white/30 text-white'
+          }`}
         >
-          📍 Me localiser
+          {geoLoading ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              <span>Localisation...</span>
+            </>
+          ) : (
+            <>📍 Me localiser</>
+          )}
         </button>
       </div>
 
-      <p className="text-white/70 text-xs">
-        Recherchez une ville ou utilisez la géolocalisation
-      </p>
+      {/* Display active location */}
+      {location && (
+        <div className="bg-white/10 rounded-lg p-3 text-white text-sm flex items-center gap-2 animate-fade-in">
+          <span className="text-lg">📍</span>
+          <div className="flex-1">
+            {location.city ? (
+              <>
+                <p className="font-medium">{location.city}</p>
+                {location.country && (
+                  <p className="text-white/70 text-xs">{location.country}</p>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="font-medium">Position détectée</p>
+                <p className="text-white/70 text-xs">
+                  {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Error display */}
+      {geoError && (
+        <div className="bg-red-500/20 rounded-lg p-3 text-white text-sm border border-red-500/50">
+          <p>{geoError}</p>
+        </div>
+      )}
+
+      {!location && !geoError && (
+        <p className="text-white/70 text-xs">
+          Recherchez une ville ou utilisez la géolocalisation
+        </p>
+      )}
     </div>
   );
 }

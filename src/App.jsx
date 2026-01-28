@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useGeolocation } from './hooks/useGeolocation';
 import { useWeather } from './hooks/useWeather';
 import DurationPicker from './components/DurationPicker';
 import DateTimePicker from './components/DateTimePicker';
-import LocationDisplay from './components/LocationDisplay';
 import LocationSearch from './components/LocationSearch';
 import Verdict from './components/Verdict';
 import WeatherDetails from './components/WeatherDetails';
 import HourlyForecast from './components/HourlyForecast';
-import TimelineBar from './components/TimelineBar';
+import TimelineModal from './components/TimelineModal';
 import SettingsModal from './components/SettingsModal';
 
 function App() {
   const [duration, setDuration] = useState(2);
   const [departureTime, setDepartureTime] = useState(new Date());
   const [showSettings, setShowSettings] = useState(false);
+  const [showTimeline, setShowTimeline] = useState(false);
   const [manualLocation, setManualLocation] = useState(null);
 
   const { location: geoLocation, error: geoError, loading: geoLoading, requestLocation } = useGeolocation();
@@ -81,23 +81,14 @@ function App() {
           </button>
         </div>
 
-        {/* Location - Search with Display */}
-        <div className="space-y-2">
-          <LocationSearch
-            onLocationSelect={handleLocationSelect}
-            onUseGeolocation={handleUseGeolocation}
-          />
-
-          {/* Display active location if selected */}
-          {activeLocation && (
-            <LocationDisplay
-              location={activeLocation}
-              loading={geoLoading}
-              error={geoError}
-              onRetry={requestLocation}
-            />
-          )}
-        </div>
+        {/* Location - Search with integrated Display */}
+        <LocationSearch
+          onLocationSelect={handleLocationSelect}
+          onUseGeolocation={handleUseGeolocation}
+          location={activeLocation}
+          loading={geoLoading}
+          error={geoError}
+        />
 
         {/* DateTime Picker */}
         <DateTimePicker
@@ -144,7 +135,14 @@ function App() {
           <div className="space-y-4 animate-fade-in">
             <Verdict verdict={analysis.verdict} />
 
-            <TimelineBar weatherWindow={weatherWindow} />
+            {/* Timeline Button */}
+            <button
+              onClick={() => setShowTimeline(true)}
+              className="w-full bg-white/10 hover:bg-white/20 text-white rounded-lg py-3 px-4 text-sm font-medium transition-colors flex items-center justify-center gap-2"
+            >
+              <span>📈</span>
+              Voir la timeline des conditions
+            </button>
 
             <WeatherDetails
               conditions={analysis.conditions}
@@ -169,6 +167,13 @@ function App() {
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         onSave={handleSettingsSave}
+      />
+
+      {/* Timeline Modal */}
+      <TimelineModal
+        isOpen={showTimeline}
+        onClose={() => setShowTimeline(false)}
+        weatherWindow={weatherWindow}
       />
     </div>
   );
