@@ -34,16 +34,16 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-bg-secondary border border-text-primary/20 rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-purple-700/90 backdrop-blur-sm px-6 py-4 border-b border-white/10 flex items-center justify-between">
+        <div className="sticky top-0 bg-bg-primary/90 backdrop-blur-sm px-6 py-4 border-b border-text-primary/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">⚙️</span>
-            <h2 className="text-xl font-bold text-white">Préférences</h2>
+            <h2 className="text-xl font-heading font-bold text-text-primary">Préférences</h2>
           </div>
           <button
             onClick={onClose}
-            className="text-white/70 hover:text-white text-2xl leading-none"
+            className="text-text-primary/70 hover:text-text-primary text-2xl leading-none"
           >
             ×
           </button>
@@ -51,19 +51,19 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
 
         {/* Content */}
         <div className="p-6 space-y-6">
-          <p className="text-white/80 text-sm">
+          <p className="text-text-primary/80 text-sm font-body">
             Ajustez les seuils selon votre niveau et vos préférences. Les valeurs par défaut conviennent à la plupart des cyclistes.
           </p>
 
           {/* Wind Speed */}
-          <div className="bg-white/10 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4">
+            <h3 className="text-text-primary font-body font-semibold mb-3 flex items-center gap-2">
               <span>💨</span>
               Vent moyen (km/h)
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   GO si &lt; {thresholds.wind.go} km/h
                 </label>
                 <input
@@ -77,7 +77,7 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                 />
               </div>
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   RISQUÉ si &lt; {thresholds.wind.risky} km/h
                 </label>
                 <input
@@ -90,21 +90,21 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                   className="w-full"
                 />
               </div>
-              <p className="text-white/50 text-xs">
+              <p className="text-text-primary/50 text-xs font-body">
                 Au-delà: NO GO
               </p>
             </div>
           </div>
 
           {/* Gusts */}
-          <div className="bg-white/10 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4">
+            <h3 className="text-text-primary font-body font-semibold mb-3 flex items-center gap-2">
               <span>🌪️</span>
               Rafales max (km/h)
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   GO si &lt; {thresholds.gusts.go} km/h
                 </label>
                 <input
@@ -118,7 +118,7 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                 />
               </div>
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   RISQUÉ si &lt; {thresholds.gusts.risky} km/h
                 </label>
                 <input
@@ -135,14 +135,14 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
           </div>
 
           {/* Precipitation Probability */}
-          <div className="bg-white/10 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4">
+            <h3 className="text-text-primary font-body font-semibold mb-3 flex items-center gap-2">
               <span>💧</span>
               Probabilité de pluie (%)
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   GO si &lt; {thresholds.precipitation_probability.go}%
                 </label>
                 <input
@@ -156,7 +156,7 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                 />
               </div>
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   RISQUÉ si &lt; {thresholds.precipitation_probability.risky}%
                 </label>
                 <input
@@ -173,14 +173,14 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
           </div>
 
           {/* Precipitation Amount */}
-          <div className="bg-white/10 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4">
+            <h3 className="text-text-primary font-body font-semibold mb-3 flex items-center gap-2">
               <span>🌧️</span>
               Précipitations (mm)
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   RISQUÉ si &lt; {thresholds.precipitation.risky} mm
                 </label>
                 <input
@@ -193,21 +193,21 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                   className="w-full"
                 />
               </div>
-              <p className="text-white/50 text-xs">
+              <p className="text-text-primary/50 text-xs font-body">
                 GO si 0 mm, NO GO au-delà du seuil
               </p>
             </div>
           </div>
 
           {/* Temperature Min */}
-          <div className="bg-white/10 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4">
+            <h3 className="text-text-primary font-body font-semibold mb-3 flex items-center gap-2">
               <span>🥶</span>
               Température minimale (°C)
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   GO si &gt; {thresholds.temperature_min.go}°C
                 </label>
                 <input
@@ -221,7 +221,7 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                 />
               </div>
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   RISQUÉ si &gt; {thresholds.temperature_min.risky}°C
                 </label>
                 <input
@@ -234,21 +234,21 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                   className="w-full"
                 />
               </div>
-              <p className="text-white/50 text-xs">
+              <p className="text-text-primary/50 text-xs font-body">
                 En dessous: NO GO
               </p>
             </div>
           </div>
 
           {/* Temperature Max */}
-          <div className="bg-white/10 rounded-lg p-4">
-            <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4">
+            <h3 className="text-text-primary font-body font-semibold mb-3 flex items-center gap-2">
               <span>🥵</span>
               Température maximale (°C)
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   GO si &lt; {thresholds.temperature_max.go}°C
                 </label>
                 <input
@@ -262,7 +262,7 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                 />
               </div>
               <div>
-                <label className="text-white/70 text-sm block mb-1">
+                <label className="text-text-primary/70 text-sm font-body block mb-1">
                   RISQUÉ si &lt; {thresholds.temperature_max.risky}°C
                 </label>
                 <input
@@ -275,7 +275,7 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
                   className="w-full"
                 />
               </div>
-              <p className="text-white/50 text-xs">
+              <p className="text-text-primary/50 text-xs font-body">
                 Au-delà: NO GO
               </p>
             </div>
@@ -283,16 +283,16 @@ export default function SettingsModal({ isOpen, onClose, onSave }) {
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-purple-700/90 backdrop-blur-sm px-6 py-4 border-t border-white/10 flex gap-3">
+        <div className="sticky bottom-0 bg-bg-primary/90 backdrop-blur-sm px-6 py-4 border-t border-text-primary/10 flex gap-3">
           <button
             onClick={handleReset}
-            className="flex-1 bg-white/10 hover:bg-white/20 text-white rounded-lg py-3 font-semibold transition-colors"
+            className="flex-1 bg-bg-secondary border border-text-primary/20 hover:border-accent text-text-primary rounded-lg py-3 font-body font-semibold transition-colors"
           >
             Réinitialiser
           </button>
           <button
             onClick={handleSave}
-            className="flex-1 bg-white hover:bg-gray-100 text-purple-700 rounded-lg py-3 font-semibold transition-colors shadow-lg"
+            className="flex-1 bg-accent hover:bg-accent-hover text-bg-primary rounded-lg py-3 font-body font-semibold transition-colors shadow-lg"
           >
             Enregistrer
           </button>

@@ -3,20 +3,20 @@ import WindDirection from './WindDirection';
 
 function DetailCard({ icon, label, value, status, extra }) {
   const statusColors = {
-    GO: 'text-green-400',
-    RISKY: 'text-orange-400',
-    NO_GO: 'text-red-400'
+    GO: 'text-verdict-go',
+    RISKY: 'text-verdict-risky',
+    NO_GO: 'text-verdict-nogo'
   };
 
-  const statusColor = status ? statusColors[status] : 'text-white';
+  const statusColor = status ? statusColors[status] : 'text-text-primary';
 
   return (
-    <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+    <div className="bg-bg-secondary border border-text-primary/20 rounded-lg p-4">
       <div className="flex items-center gap-2 mb-2">
         <span className="text-2xl">{icon}</span>
-        <span className="text-white/70 text-sm">{label}</span>
+        <span className="text-text-primary/70 text-sm font-body">{label}</span>
       </div>
-      <p className={`text-xl font-bold ${statusColor}`}>{value}</p>
+      <p className={`text-xl font-body font-bold ${statusColor}`}>{value}</p>
       {extra && <div className="mt-2">{extra}</div>}
     </div>
   );
@@ -27,13 +27,13 @@ export default function WeatherDetails({ conditions, duration }) {
 
   return (
     <div className="w-full space-y-4">
-      <h3 className="text-white text-lg font-semibold">
+      <h3 className="text-text-primary text-lg font-heading font-semibold">
         Prévisions sur {duration}h
       </h3>
 
-      <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm text-center">
+      <div className="bg-bg-secondary border border-text-primary/20 rounded-lg p-4 text-center">
         <span className="text-4xl">{weatherInfo.icon}</span>
-        <p className="text-white mt-2">{weatherInfo.description}</p>
+        <p className="text-text-primary mt-2 font-body">{weatherInfo.description}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -71,8 +71,8 @@ export default function WeatherDetails({ conditions, duration }) {
       </div>
 
       {conditions.precipitation.amount > 0 && (
-        <div className="bg-blue-500/20 border border-blue-500/50 rounded-lg p-3 text-white text-sm">
-          <p>
+        <div className="bg-accent/20 border border-accent rounded-lg p-3 text-text-primary text-sm">
+          <p className="font-body">
             <strong>Précipitations prévues :</strong> {conditions.precipitation.amount} mm
           </p>
         </div>

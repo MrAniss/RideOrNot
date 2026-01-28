@@ -114,7 +114,7 @@ export default function DateTimePicker({ onChange, disabled }) {
 
   return (
     <div className="space-y-3">
-      <label className="text-white font-semibold text-sm">
+      <label className="text-text-primary font-body font-semibold text-sm">
         Quand partez-vous ?
       </label>
 
@@ -125,10 +125,10 @@ export default function DateTimePicker({ onChange, disabled }) {
             key={preset.id}
             onClick={() => handlePresetClick(preset)}
             disabled={disabled}
-            className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
+            className={`py-2 px-3 rounded-lg text-sm font-body font-medium transition-all border ${
               selectedPreset === preset.id
-                ? 'bg-white text-purple-700 shadow-lg'
-                : 'bg-white/20 text-white hover:bg-white/30'
+                ? 'bg-accent text-bg-primary border-accent shadow-lg'
+                : 'bg-bg-secondary text-text-primary border-text-primary/20 hover:border-accent'
             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {preset.label}
@@ -138,10 +138,10 @@ export default function DateTimePicker({ onChange, disabled }) {
         <button
           onClick={handleCustomClick}
           disabled={disabled}
-          className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
+          className={`py-2 px-3 rounded-lg text-sm font-body font-medium transition-all border ${
             selectedPreset === 'custom'
-              ? 'bg-white text-purple-700 shadow-lg'
-              : 'bg-white/20 text-white hover:bg-white/30'
+              ? 'bg-accent text-bg-primary border-accent shadow-lg'
+              : 'bg-bg-secondary text-text-primary border-text-primary/20 hover:border-accent'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           📅 Autre
@@ -150,7 +150,7 @@ export default function DateTimePicker({ onChange, disabled }) {
 
       {/* Custom DateTime Input */}
       {showCustom && (
-        <div className="bg-white/10 rounded-lg p-3">
+        <div className="bg-bg-secondary border border-text-primary/20 rounded-lg p-3">
           <input
             type="datetime-local"
             value={customDate}
@@ -158,9 +158,9 @@ export default function DateTimePicker({ onChange, disabled }) {
             min={minDateStr}
             max={maxDateStr}
             disabled={disabled}
-            className="w-full bg-white/20 border border-white/30 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+            className="w-full bg-bg-secondary border border-text-primary/20 rounded-lg px-3 py-2 text-text-primary text-sm font-body focus:outline-none focus:ring-2 focus:ring-accent"
           />
-          <p className="text-white/70 text-xs mt-2">
+          <p className="text-text-primary/70 text-xs mt-2 font-body">
             Maximum 7 jours à l'avance
           </p>
         </div>
@@ -168,7 +168,7 @@ export default function DateTimePicker({ onChange, disabled }) {
 
       {/* Selected Time Display */}
       {selectedPreset !== 'custom' && selectedPreset !== 'now' && (
-        <div className="bg-white/10 rounded-lg p-2 text-white text-xs text-center">
+        <div className="bg-bg-secondary border border-text-primary/20 rounded-lg p-2 text-text-primary text-xs text-center font-body">
           {(() => {
             const preset = QUICK_PRESETS.find(p => p.id === selectedPreset);
             const date = preset.customTime

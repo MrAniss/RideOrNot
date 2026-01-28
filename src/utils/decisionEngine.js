@@ -144,25 +144,28 @@ export function analyzeConditions(weatherWindow, customThresholds = null) {
 export function getVerdictConfig(verdict) {
   const configs = {
     [VERDICT.GO]: {
-      color: 'bg-green-500',
-      textColor: 'text-green-500',
-      borderColor: 'border-green-500',
+      color: 'bg-verdict-go',
+      textColor: 'text-verdict-go',
+      borderColor: 'border-verdict-go',
+      bgOpacity: 'bg-verdict-go/15',
       message: 'Conditions optimales',
       emoji: '✅',
       title: 'GO !'
     },
     [VERDICT.RISKY]: {
-      color: 'bg-orange-500',
-      textColor: 'text-orange-500',
-      borderColor: 'border-orange-500',
+      color: 'bg-verdict-risky',
+      textColor: 'text-verdict-risky',
+      borderColor: 'border-verdict-risky',
+      bgOpacity: 'bg-verdict-risky/15',
       message: 'Faisable mais prudence',
       emoji: '⚠️',
       title: 'RISQUÉ'
     },
     [VERDICT.NO_GO]: {
-      color: 'bg-red-500',
-      textColor: 'text-red-500',
-      borderColor: 'border-red-500',
+      color: 'bg-verdict-nogo',
+      textColor: 'text-verdict-nogo',
+      borderColor: 'border-verdict-nogo',
+      bgOpacity: 'bg-verdict-nogo/15',
       message: 'Reste au chaud',
       emoji: '❌',
       title: 'NO GO'

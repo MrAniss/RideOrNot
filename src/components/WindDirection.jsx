@@ -19,10 +19,10 @@ export default function WindDirection({ degrees, size = 'md' }) {
   if (degrees === null || degrees === undefined) {
     return (
       <div className="flex items-center gap-1">
-        <div className={`${sizeClass} flex items-center justify-center text-white/50`}>
+        <div className={`${sizeClass} flex items-center justify-center text-text-primary/50`}>
           -
         </div>
-        <span className="text-white/50 text-sm font-medium">-</span>
+        <span className="text-text-primary/50 text-sm font-body font-medium">-</span>
       </div>
     );
   }
@@ -42,14 +42,14 @@ export default function WindDirection({ degrees, size = 'md' }) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-white"
+          className="text-accent"
         >
           <path d="M12 5v14M19 12l-7 7-7-7" />
         </svg>
       </div>
 
       {/* Cardinal direction label */}
-      <span className="text-white font-medium text-sm">
+      <span className="text-text-primary font-body font-medium text-sm">
         {cardinal}
       </span>
     </div>

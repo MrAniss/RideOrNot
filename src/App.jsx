@@ -59,22 +59,23 @@ function App() {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl p-6 space-y-6">
+      <div className="bg-bg-secondary border border-text-primary/20 rounded-2xl shadow-2xl p-6 space-y-6">
         {/* Header with Settings */}
         <div className="flex items-center justify-between">
           <div className="text-center flex-1">
-            <h1 className="text-4xl font-bold text-white mb-2">
-              <span className="text-5xl">🚴</span>
-              <br />
-              RideOrNot
-            </h1>
-            <p className="text-white/80 text-sm">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <img src="/logo.svg" alt="RideOrNot" className="w-12 h-12" />
+              <h1 className="text-4xl font-heading font-bold text-text-primary">
+                RideOrNot
+              </h1>
+            </div>
+            <p className="text-text-primary/80 text-sm font-body">
               La météo intelligente pour cyclistes
             </p>
           </div>
           <button
             onClick={() => setShowSettings(true)}
-            className="absolute top-6 right-6 bg-white/10 hover:bg-white/20 text-white rounded-lg p-2 transition-colors"
+            className="absolute top-6 right-6 bg-bg-primary/80 hover:bg-accent/20 border border-text-primary/20 text-text-primary rounded-xl p-2 transition-colors"
             title="Paramètres"
           >
             <span className="text-xl">⚙️</span>
@@ -106,15 +107,15 @@ function App() {
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
-          className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all ${
+          className={`w-full py-4 px-6 rounded-xl font-heading font-bold text-lg transition-all ${
             canAnalyze
-              ? 'bg-white text-purple-700 hover:bg-gray-100 shadow-lg hover:shadow-xl transform hover:scale-105'
-              : 'bg-white/20 text-white/50 cursor-not-allowed'
+              ? 'bg-accent text-bg-primary hover:bg-accent-hover shadow-lg hover:shadow-xl transform hover:scale-105'
+              : 'bg-bg-primary/50 border border-text-primary/20 text-text-primary/50 cursor-not-allowed'
           }`}
         >
           {weatherLoading ? (
             <span className="flex items-center justify-center gap-2">
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-purple-700 border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-bg-primary border-t-transparent"></div>
               Analyse en cours...
             </span>
           ) : (
@@ -124,7 +125,7 @@ function App() {
 
         {/* Weather Error */}
         {weatherError && (
-          <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 text-white text-sm">
+          <div className="bg-verdict-nogo/20 border border-verdict-nogo rounded-lg p-4 text-text-primary text-sm font-body">
             <p className="font-semibold mb-1">Erreur</p>
             <p>{weatherError}</p>
           </div>

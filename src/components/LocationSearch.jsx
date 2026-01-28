@@ -88,26 +88,26 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation, loc
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Rechercher une ville..."
-            className="w-full bg-white/20 border border-white/30 rounded-lg px-3 py-2 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+            className="w-full bg-bg-secondary border border-text-primary/20 rounded-lg px-3 py-2 text-text-primary placeholder-text-primary/50 text-sm font-body focus:outline-none focus:ring-2 focus:ring-accent"
           />
 
           {loading && (
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
-              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-text-primary border-t-transparent"></div>
             </div>
           )}
 
           {/* Autocomplete Results */}
           {showResults && results.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-xl z-10 max-h-60 overflow-y-auto">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-bg-secondary border border-text-primary/20 rounded-lg shadow-xl z-10 max-h-60 overflow-y-auto">
               {results.map((city, index) => (
                 <button
                   key={`${city.id}-${index}`}
                   onClick={() => handleCitySelect(city)}
-                  className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                  className="w-full text-left px-4 py-3 hover:bg-accent/20 transition-colors border-b border-text-primary/10 last:border-b-0"
                 >
-                  <p className="font-medium text-gray-900">{city.name}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="font-medium text-text-primary font-body">{city.name}</p>
+                  <p className="text-xs text-text-primary/70 font-body">
                     {[city.admin1, city.country].filter(Boolean).join(', ')}
                   </p>
                 </button>
@@ -116,8 +116,8 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation, loc
           )}
 
           {showResults && results.length === 0 && query.length >= 2 && !loading && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-xl z-10 px-4 py-3">
-              <p className="text-sm text-gray-500">Aucune ville trouvée</p>
+            <div className="absolute top-full left-0 right-0 mt-1 bg-bg-secondary border border-text-primary/20 rounded-lg shadow-xl z-10 px-4 py-3">
+              <p className="text-sm text-text-primary/70 font-body">Aucune ville trouvée</p>
             </div>
           )}
         </div>
@@ -125,15 +125,15 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation, loc
         <button
           onClick={handleGeolocationClick}
           disabled={geoLoading}
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors flex items-center gap-1 whitespace-nowrap ${
+          className={`rounded-lg px-4 py-2 text-sm font-body font-medium transition-colors flex items-center gap-1 whitespace-nowrap border ${
             geoLoading
-              ? 'bg-white/10 text-white/50 cursor-not-allowed'
-              : 'bg-white/20 hover:bg-white/30 text-white'
+              ? 'bg-bg-primary/50 border-text-primary/20 text-text-primary/50 cursor-not-allowed'
+              : 'bg-bg-secondary border-text-primary/20 hover:border-accent text-text-primary'
           }`}
         >
           {geoLoading ? (
             <>
-              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-4 w-4 border-2 border-text-primary border-t-transparent"></div>
               <span>Localisation...</span>
             </>
           ) : (
@@ -144,20 +144,20 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation, loc
 
       {/* Display active location */}
       {location && (
-        <div className="bg-white/10 rounded-lg p-3 text-white text-sm flex items-center gap-2 animate-fade-in">
+        <div className="bg-bg-secondary border border-accent/30 rounded-lg p-3 text-text-primary text-sm flex items-center gap-2 animate-fade-in">
           <span className="text-lg">📍</span>
           <div className="flex-1">
             {location.city ? (
               <>
-                <p className="font-medium">{location.city}</p>
+                <p className="font-medium font-body">{location.city}</p>
                 {location.country && (
-                  <p className="text-white/70 text-xs">{location.country}</p>
+                  <p className="text-text-primary/70 text-xs font-body">{location.country}</p>
                 )}
               </>
             ) : (
               <>
-                <p className="font-medium">Position détectée</p>
-                <p className="text-white/70 text-xs">
+                <p className="font-medium font-body">Position détectée</p>
+                <p className="text-text-primary/70 text-xs font-body">
                   {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
                 </p>
               </>
@@ -168,13 +168,13 @@ export default function LocationSearch({ onLocationSelect, onUseGeolocation, loc
 
       {/* Error display */}
       {geoError && (
-        <div className="bg-red-500/20 rounded-lg p-3 text-white text-sm border border-red-500/50">
-          <p>{geoError}</p>
+        <div className="bg-verdict-nogo/20 rounded-lg p-3 text-text-primary text-sm border border-verdict-nogo">
+          <p className="font-body">{geoError}</p>
         </div>
       )}
 
       {!location && !geoError && (
-        <p className="text-white/70 text-xs">
+        <p className="text-text-primary/70 text-xs font-body">
           Recherchez une ville ou utilisez la géolocalisation
         </p>
       )}

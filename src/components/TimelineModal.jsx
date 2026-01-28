@@ -48,16 +48,16 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-purple-600 to-purple-800 rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-bg-secondary border border-text-primary/20 rounded-3xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-purple-700/90 backdrop-blur-sm px-6 py-4 border-b border-white/10 flex items-center justify-between">
+        <div className="sticky top-0 bg-bg-primary/90 backdrop-blur-sm px-6 py-4 border-b border-text-primary/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">📈</span>
-            <h2 className="text-xl font-bold text-white">Timeline des conditions</h2>
+            <h2 className="text-xl font-heading font-bold text-text-primary">Timeline des conditions</h2>
           </div>
           <button
             onClick={onClose}
-            className="text-white/70 hover:text-white text-2xl leading-none"
+            className="text-text-primary/70 hover:text-text-primary text-2xl leading-none"
           >
             ×
           </button>
@@ -65,7 +65,7 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
 
         {/* Content */}
         <div className="p-6 space-y-6">
-          <p className="text-white/80 text-sm">
+          <p className="text-text-primary/80 text-sm font-body">
             Visualisez l'évolution des conditions heure par heure. Chaque segment représente une heure de votre sortie.
           </p>
 
@@ -91,7 +91,7 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
                   >
                     {/* Hour labels */}
                     {(index === 0 || index === Math.floor(hours / 2) || index === hours - 1) && (
-                      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-xs whitespace-nowrap font-medium">
+                      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-text-primary/70 text-xs whitespace-nowrap font-body font-medium">
                         {formatTimeShort(segment.time)}
                       </div>
                     )}
@@ -105,22 +105,22 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
 
             {/* Hover Tooltip */}
             {hoveredIndex !== null && (
-              <div className="bg-white rounded-lg p-4 shadow-xl text-gray-900">
+              <div className="bg-bg-primary border border-text-primary/20 rounded-lg p-4 shadow-xl">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <p className="font-bold text-lg">
+                    <p className="font-body font-bold text-lg text-text-primary">
                       {formatTimeShort(segments[hoveredIndex].time)}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm font-body text-text-primary/70">
                       {segments[hoveredIndex].temp}°C • {segments[hoveredIndex].wind} km/h
                     </p>
                   </div>
-                  <div className={`px-4 py-2 rounded-full text-white text-sm font-bold ${getVerdictConfig(segments[hoveredIndex].verdict).color}`}>
+                  <div className={`px-4 py-2 rounded-full text-sm font-body font-bold ${getVerdictConfig(segments[hoveredIndex].verdict).bgOpacity} ${getVerdictConfig(segments[hoveredIndex].verdict).textColor}`}>
                     {getVerdictConfig(segments[hoveredIndex].verdict).title}
                   </div>
                 </div>
                 {segments[hoveredIndex].precip > 20 && (
-                  <p className="text-sm text-blue-600">
+                  <p className="text-sm font-body text-accent">
                     💧 Pluie possible: {segments[hoveredIndex].precip}%
                   </p>
                 )}
@@ -131,23 +131,23 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
           {/* Legend */}
           <div className="flex items-center justify-center gap-6 pt-4">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-green-500"></div>
-              <span className="text-white text-sm font-medium">GO</span>
+              <div className="w-4 h-4 rounded bg-verdict-go"></div>
+              <span className="text-text-primary text-sm font-body font-medium">GO</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-orange-500"></div>
-              <span className="text-white text-sm font-medium">RISQUÉ</span>
+              <div className="w-4 h-4 rounded bg-verdict-risky"></div>
+              <span className="text-text-primary text-sm font-body font-medium">RISQUÉ</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-red-500"></div>
-              <span className="text-white text-sm font-medium">NO GO</span>
+              <div className="w-4 h-4 rounded bg-verdict-nogo"></div>
+              <span className="text-text-primary text-sm font-body font-medium">NO GO</span>
             </div>
           </div>
 
           {/* Details list */}
-          <div className="bg-white/10 rounded-lg p-4 space-y-2">
-            <h3 className="text-white font-semibold mb-3">Détail par heure :</h3>
-            <div className="grid grid-cols-4 gap-2 text-xs text-white/70 font-medium mb-2">
+          <div className="bg-bg-primary/50 border border-text-primary/20 rounded-lg p-4 space-y-2">
+            <h3 className="text-text-primary font-body font-semibold mb-3">Détail par heure :</h3>
+            <div className="grid grid-cols-4 gap-2 text-xs text-text-primary/70 font-body font-medium mb-2">
               <div>Heure</div>
               <div>Temp</div>
               <div>Vent</div>
@@ -157,13 +157,13 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
               {segments.map((segment, index) => (
                 <div
                   key={segment.time}
-                  className="grid grid-cols-4 gap-2 text-sm text-white py-2 px-2 rounded hover:bg-white/10 transition-colors"
+                  className="grid grid-cols-4 gap-2 text-sm text-text-primary py-2 px-2 rounded hover:bg-accent/10 transition-colors"
                 >
-                  <div className="font-medium">{formatTimeShort(segment.time)}</div>
-                  <div>{segment.temp}°C</div>
-                  <div>{segment.wind} km/h</div>
+                  <div className="font-body font-medium">{formatTimeShort(segment.time)}</div>
+                  <div className="font-body">{segment.temp}°C</div>
+                  <div className="font-body">{segment.wind} km/h</div>
                   <div>
-                    <span className={`text-xs font-bold ${getVerdictConfig(segment.verdict).textColor}`}>
+                    <span className={`text-xs font-body font-bold ${getVerdictConfig(segment.verdict).textColor}`}>
                       {getVerdictConfig(segment.verdict).emoji} {getVerdictConfig(segment.verdict).title}
                     </span>
                   </div>
@@ -174,10 +174,10 @@ export default function TimelineModal({ isOpen, onClose, weatherWindow }) {
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 bg-purple-700/90 backdrop-blur-sm px-6 py-4 border-t border-white/10">
+        <div className="sticky bottom-0 bg-bg-primary/90 backdrop-blur-sm px-6 py-4 border-t border-text-primary/10">
           <button
             onClick={onClose}
-            className="w-full bg-white hover:bg-gray-100 text-purple-700 rounded-lg py-3 font-semibold transition-colors"
+            className="w-full bg-accent hover:bg-accent-hover text-bg-primary rounded-lg py-3 font-body font-semibold transition-colors"
           >
             Fermer
           </button>

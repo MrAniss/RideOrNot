@@ -23,24 +23,24 @@ export default function HourlyForecast({ weatherWindow }) {
   const hours = weatherWindow.time.length;
 
   return (
-    <div className="w-full bg-white/5 rounded-lg overflow-hidden">
+    <div className="w-full bg-bg-secondary border border-text-primary/20 rounded-lg overflow-hidden">
       {/* Header - Toggle */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-white/5 transition-colors"
+        className="w-full px-4 py-3 flex items-center justify-between hover:bg-accent/10 transition-colors"
       >
         <div className="flex items-center gap-2">
           <span className="text-lg">📊</span>
-          <span className="text-white font-medium">
+          <span className="text-text-primary font-body font-medium">
             Prévisions heure par heure
           </span>
-          <span className="text-white/50 text-sm">
+          <span className="text-text-primary/50 text-sm font-body">
             ({hours}h)
           </span>
         </div>
 
         <svg
-          className={`w-5 h-5 text-white transition-transform ${
+          className={`w-5 h-5 text-text-primary transition-transform ${
             expanded ? 'rotate-180' : ''
           }`}
           fill="none"
@@ -58,7 +58,7 @@ export default function HourlyForecast({ weatherWindow }) {
 
       {/* Hourly Data */}
       {expanded && (
-        <div className="border-t border-white/10 max-h-96 overflow-y-auto">
+        <div className="border-t border-text-primary/10 max-h-96 overflow-y-auto">
           {weatherWindow.time.map((time, index) => {
             const weatherInfo = getWeatherInfo(weatherWindow.weathercode[index]);
             const temp = weatherWindow.temperature[index];
@@ -70,11 +70,11 @@ export default function HourlyForecast({ weatherWindow }) {
             return (
               <div
                 key={time}
-                className="px-4 py-3 border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors"
+                className="px-4 py-3 border-b border-text-primary/5 last:border-b-0 hover:bg-accent/10 transition-colors"
               >
                 <div className="grid grid-cols-[60px_1fr_1fr_1fr] gap-3 items-center">
                   {/* Time */}
-                  <div className="text-white font-medium text-sm">
+                  <div className="text-text-primary font-body font-medium text-sm">
                     {formatTime(time)}
                   </div>
 
@@ -82,10 +82,10 @@ export default function HourlyForecast({ weatherWindow }) {
                   <div className="flex items-center gap-2">
                     <span className="text-xl">{weatherInfo.icon}</span>
                     <div>
-                      <p className="text-white font-medium text-sm">
+                      <p className="text-text-primary font-body font-medium text-sm">
                         {Math.round(temp)}°C
                       </p>
-                      <p className="text-white/50 text-xs">
+                      <p className="text-text-primary/50 text-xs font-body">
                         {weatherInfo.description}
                       </p>
                     </div>
@@ -93,7 +93,7 @@ export default function HourlyForecast({ weatherWindow }) {
 
                   {/* Wind */}
                   <div>
-                    <p className="text-white text-sm font-medium">
+                    <p className="text-text-primary text-sm font-body font-medium">
                       {Math.round(wind)} km/h
                     </p>
                     {windDir !== null && windDir !== undefined && (
@@ -107,17 +107,17 @@ export default function HourlyForecast({ weatherWindow }) {
                   <div className="text-right">
                     {precip > 0 || precipProb > 20 ? (
                       <>
-                        <p className="text-blue-300 text-sm font-medium">
+                        <p className="text-accent text-sm font-body font-medium">
                           {precipProb}%
                         </p>
                         {precip > 0 && (
-                          <p className="text-blue-200 text-xs">
+                          <p className="text-accent/80 text-xs font-body">
                             {precip.toFixed(1)} mm
                           </p>
                         )}
                       </>
                     ) : (
-                      <p className="text-white/30 text-sm">-</p>
+                      <p className="text-text-primary/30 text-sm font-body">-</p>
                     )}
                   </div>
                 </div>

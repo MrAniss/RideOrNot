@@ -21,7 +21,7 @@ export default function DurationPicker({ onDurationChange, disabled }) {
 
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-white mb-3">
+      <label className="block text-sm font-medium font-body text-text-primary mb-3">
         Durée de la sortie
       </label>
 
@@ -31,10 +31,10 @@ export default function DurationPicker({ onDurationChange, disabled }) {
             key={hours}
             onClick={() => handlePresetClick(hours)}
             disabled={disabled}
-            className={`py-3 px-4 rounded-lg font-semibold transition-all ${
+            className={`py-3 px-4 rounded-lg font-body font-semibold transition-all border ${
               duration === hours && !customMode
-                ? 'bg-white text-purple-700 shadow-lg'
-                : 'bg-white/20 text-white hover:bg-white/30'
+                ? 'bg-accent text-bg-primary border-accent shadow-lg'
+                : 'bg-bg-secondary text-text-primary border-text-primary/20 hover:border-accent'
             } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
           >
             {hours}h
@@ -45,10 +45,10 @@ export default function DurationPicker({ onDurationChange, disabled }) {
       <button
         onClick={() => setCustomMode(!customMode)}
         disabled={disabled}
-        className={`w-full py-2 px-4 rounded-lg text-sm transition-all ${
+        className={`w-full py-2 px-4 rounded-lg text-sm font-body transition-all border ${
           customMode
-            ? 'bg-white text-purple-700'
-            : 'bg-white/10 text-white hover:bg-white/20'
+            ? 'bg-accent text-bg-primary border-accent'
+            : 'bg-bg-secondary text-text-primary border-text-primary/20 hover:border-accent'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
       >
         {customMode ? 'Durée personnalisée' : 'Personnaliser'}
@@ -63,9 +63,9 @@ export default function DurationPicker({ onDurationChange, disabled }) {
             value={duration}
             onChange={handleCustomChange}
             disabled={disabled}
-            className="w-full px-4 py-2 rounded-lg bg-white text-purple-700 font-semibold text-center focus:outline-none focus:ring-2 focus:ring-white"
+            className="w-full px-4 py-2 rounded-lg bg-bg-secondary border border-text-primary/20 text-text-primary font-body font-semibold text-center focus:outline-none focus:ring-2 focus:ring-accent"
           />
-          <p className="text-white/70 text-xs mt-1 text-center">
+          <p className="text-text-primary/70 text-xs mt-1 text-center font-body">
             1 à 12 heures
           </p>
         </div>
